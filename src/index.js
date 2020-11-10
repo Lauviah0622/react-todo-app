@@ -4,10 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {ThemeProvider} from 'styled-components';
+
+const theme = {
+  color: {
+    primary: "#88d19d"
+  },
+  padding: {
+    m: "0 20px"
+  }
+}
+
 ReactDOM.render(
-  <React.StrictMode>
+  <ThemeProvider theme={theme}>
     <App />
-  </React.StrictMode>,
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
