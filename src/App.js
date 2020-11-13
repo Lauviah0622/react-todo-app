@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import Header from "./Header";
 import Todolist from "./Todolist";
 import { Button } from "./Utils";
@@ -51,16 +51,18 @@ function App() {
   const [todosData, setTodosData] = useState([createTodo("讓你試試看")]);
   const [filterState, setFilterState] = useState(null);
 
-  const addToto = (content) => {
+  const addTodo = (content) => {
     setTodosData([
       createTodo(content.length === 0 ? "忙些事兒" : content),
       ...todosData,
     ]);
   };
 
-  const deleteTodo = (id) => {
-    setTodosData(todosData.filter((todo) => todo.id !== id));
-  };
+  const deleteTodo = useCallback((id) => {
+    setTodosData((prevTodosData) =>
+      prevTodosData.filter((todo) => todo.id !== id)
+    );
+  }, []);
 
   const updateTodoContent = (id, content) => {
     setTodosData(
@@ -98,7 +100,7 @@ function App() {
 
   return (
     <AppWrapper>
-      <Header addToto={addToto} />
+      <Header addToto={addTodo} />
       <Todolist
         todosData={filtedTodosData}
         deleteTodo={deleteTodo}
@@ -106,14 +108,13 @@ function App() {
         toggleTodoDone={toggleTodoDone}
       />
       <Filter>
-        <FilterButton onClick={() => setFilter("done")}>✔</FilterButton>
+        <FilterButton onClick={() => setFilter("done")} value="✔" />
         <FilterButton
           style={{ fontSize: "1.5em" }}
           onClick={() => setFilter("undone")}
-        >
-          ⨯
-        </FilterButton>
-        <FilterButton onClick={() => setFilter(null)}>All</FilterButton>
+          value="⨯"
+        />
+        <FilterButton onClick={() => setFilter(null)} value="All" />
       </Filter>
     </AppWrapper>
   );

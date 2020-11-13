@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import styled from "styled-components";
 import { Button } from './Utils';
 
@@ -59,28 +59,28 @@ const InputButton = styled(Button)`
 
 
 
-
+const MemoInputButton = memo(InputButton);
+const MemoInput = memo(StyledInput);
 
 export default function Header({addToto}) {
+  console.log('rerender Header');
   const inputRef = useRef()
-  const handleInputChange = () => {
-    // console.log(inputRef.current.value);
-    
-  }
 
-  const handleButtonClick = (e) => {
+  const addTodoAndCleanInput = () => {
     addToto(inputRef.current.value)
     inputRef.current.value = '';
     inputRef.current.focus();
+
   }
 
+  const handleButtonClick = (e) => {
+    addTodoAndCleanInput()
+  }
 
 
   const handleKeyDown = (e) => {
     if (e.key !== 'Enter') return 
-    addToto(inputRef.current.value)
-    inputRef.current.value = '';
-    inputRef.current.focus();
+    addTodoAndCleanInput()
   }
 
   return (
@@ -90,13 +90,13 @@ export default function Header({addToto}) {
         <StyledInput 
         placeholder="有什麼要忙的嗎？" 
         ref={inputRef} 
-        onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         />
         <InputButton
           onClick={handleButtonClick}
           tabIndex="enter"
-        >»</InputButton>
+          value='»'
+        />
       </InputBar>
      
     </HeaderWrapper>

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "./Utils";
+import { memo, useCallback } from "react";
 
 const TodosWrapper = styled.ul`
   list-style-type: none;
@@ -8,14 +9,14 @@ const TodosWrapper = styled.ul`
   border-radius: 0 0 10px 10px;
 `;
 
-const TodoItem = styled.li`
+const StyledTodoItem = styled.li`
   display: flex;
   align-items: stretch;
   height: 60px;
   transition: 0.3s;
   opacity: 1;
   & + & {
-  border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc;
   }
 
   > div {
@@ -47,15 +48,15 @@ const StyledContent = styled(Content)`
   }
 `;
 
-function Content({ className, children, onChange }) {
+function Content({ className, content, onChange }) {
   return (
     <div className={className}>
-      <input value={children} onChange={onChange}></input>
+      <input value={content} onChange={onChange}></input>
     </div>
   );
 }
 
-const CheckButton = styled(({isDone, ...props}) => <Button {...props}/>)`
+const CheckButton = styled(({ isDone, ...props }) => <Button {...props} />)`
   border-right: 1px solid #ccc;
   color: transparent;
   user-select: none;
@@ -80,34 +81,54 @@ const CheckButton = styled(({isDone, ...props}) => <Button {...props}/>)`
   }
 `;
 
-export default function Todolist({ todosData, deleteTodo, toggleTodoDone, updateTodoContent }) {
-  
-  const todoList = todosData.map((todo) => {
-    const handleContentUpdate = (e) => {
-      updateTodoContent(todo.id, e.target.value)
-    };
+const TodoItem = ({
+  todo,
+  toggleTodoDone,
+  updateTodoContent,
+  deleteTodo,
+}) => {
+  const handleContentUpdate = (e) => {
+    updateTodoContent(todo.id, e.target.value);
+  };
+  const handleDeleteButton = () => {
+    deleteTodo(todo.id);
+  };
+  const handleToggleButton = () => {
+    toggleTodoDone(todo.id);
+  };
 
+  return (
+    <StyledTodoItem key={todo.id}>
+      <CheckButton
+        isDone={todo.isDone}
+        onClick={handleToggleButton}
+        value="✔"
+      />
+      <StyledContent
+        onChange={handleContentUpdate}
+        content={todo.content}
+      />
+      <Button onClick={handleDeleteButton} value="⨯" />
+    </StyledTodoItem>
+  );
+};
+
+const MemoTodoItem = memo(TodoItem);
+
+export default function Todolist({
+  todosData,
+  deleteTodo,
+  toggleTodoDone,
+  updateTodoContent,
+}) {
+  const todoList = todosData.map((todo) => {
     return (
-      <TodoItem key={todo.id}>
-        <CheckButton
-          isDone={todo.isDone}
-          onClick={() => {
-            toggleTodoDone(todo.id);
-          }}
-        >
-          ✔
-        </CheckButton>
-        <StyledContent onChange={handleContentUpdate}>
-          {todo.content}
-        </StyledContent>
-        <Button
-          onClick={() => {
-            deleteTodo(todo.id);
-          }}
-        >
-          ⨯
-        </Button>
-      </TodoItem>
+      <MemoTodoItem
+        todo={todo}
+        toggleTodoDone={toggleTodoDone}
+        updateTodoContent={updateTodoContent}
+        deleteTodo={deleteTodo}
+      />
     );
   });
   return <TodosWrapper>{todoList}</TodosWrapper>;
