@@ -5,6 +5,8 @@ import Todolist from "./components/Todolist";
 import Header from "./components/Header";
 import Filter from './components/Filter';
 
+
+
 const AppWrapper = styled.div`
   display: flex;
   position: relative;
@@ -22,7 +24,7 @@ const AppWrapper = styled.div`
 
 
 function App() {
-  const [filterState, setFilter] = useFilter();
+  const [setFilter] = useFilter();
   const {todosData, 
     addTodo, 
     deleteTodo, 
@@ -30,18 +32,11 @@ function App() {
     toggleTodoDone
   } = useTodos();
 
-  const filtedTodosData = todosData.filter((todo) => {
-    if (filterState === "done") return todo.isDone;
-    if (filterState === "undone") return !todo.isDone;
-    return true;
-  });
-
-
   return (
     <AppWrapper>
       <Header addToto={addTodo} />
       <Todolist
-        todosData={filtedTodosData}
+        todosData={todosData}
         deleteTodo={deleteTodo}
         updateTodoContent={updateTodoContent}
         toggleTodoDone={toggleTodoDone}

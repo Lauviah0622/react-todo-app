@@ -1,63 +1,65 @@
 import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import {addTodo as addTodoAction, deleteTodo as deleteTodoAction, updateTodo, toggleTodo} from '../redux-tool/feature/todos/todoSlice';
 
-const createTodo = (function () {
-    let counter = 1;
-    return function (content) {
-      return {
-        id: counter++,
-        content,
-        isDone: false,
-      };
-    };
-  })();
+const filtTodolistData = (todosData, filterState) => {
+  return todosData.filter(todo => {
+    if (filterState === "done") return todo.isDone;
+    if (filterState === "undone") return !todo.isDone;
+    return true;
+  });
+};
 
-export default function useTodos() {
-  const [todosData, setTodosData] = useState([createTodo("讓你試試看")]);
+const useDispatchCallback = (callback) => {
+  const dispatch = useDispatch();
+  return useCallback(callback, [dispatch])
+
+}
+
+function useToolkitTodos() {
+  const todosData = useSelector(store => {
+    return filtTodolistData(store.todos, store.filterState);
+  });
+
+  const dispatch = useDispatch();
+
+  const addTodo = useDispatchCallback((content) => {
+    dispatch(addTodoAction({content}));
+  })
   
-  const addTodo = useCallback((content) => {
-    setTodosData((prevTodosData) => [
-      createTodo(content.length === 0 ? "忙些事兒" : content),
-      ...prevTodosData,
-    ]);
-  }, []);
+  // useCallback(
+  //   (content) => {
+  //     dispatch(addTodoAction({content}));
+  //   },
+  //   [dispatch]
+  // );
 
-  const deleteTodo = useCallback(id => {
-    setTodosData((prevTodosData) =>
-      prevTodosData.filter((todo) => todo.id !== id)
-    );
-  }, []);
+  const deleteTodo = useDispatchCallback(
+    (id) => {
+      dispatch(deleteTodoAction({id}));
+    })
 
-  const updateTodoContent = useCallback((id, content) => {
-    setTodosData((prevTodosData) =>
-      prevTodosData.map((todo) => {
-        if (id !== todo.id) return todo;
-        return {
-          ...todo,
-          content: content,
-        };
-      })
+  const updateTodoContent = useDispatchCallback(
+    (id, content) => {
+      dispatch(updateTodo({id, content}));
+    }
     );
-  }, []);
 
-  const toggleTodoDone = useCallback((id) => {
-    setTodosData((prevTodosData) =>
-      prevTodosData.map((todo) => {
-        if (id !== todo.id) return todo;
-        return {
-          ...todo,
-          isDone: !todo.isDone,
-        };
-      })
-    );
-  }, []);
+  const toggleTodoDone = useDispatchCallback(id => {
+    dispatch(toggleTodo({id}));
+  });
+
+  
+  // 這裡有想說能不能把 useCallback(func, [dispatch]) 抽成一個 fucntion，可是 hook 只能用在 最頂層
 
   return {
-      todosData,
-      setTodosData,
-      addTodo,
-      deleteTodo,
-      updateTodoContent,
-      toggleTodoDone
+    todosData,
+    addTodo,
+    deleteTodo,
+    updateTodoContent,
+    toggleTodoDone,
   }
 }
+
+export default useToolkitTodos;

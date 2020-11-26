@@ -1,10 +1,16 @@
-import { useCallback, useState} from 'react';
+import { useDispatch } from "react-redux";
+import { setFilterState } from "../redux/feature/filter/filterSlice";
+import { useCallback } from "react";
 
-export default function useFilter() {
-    const [filterState, setFilterState] = useState(null);
-    const setFilter = useCallback((mode) => {
-        setFilterState(mode);
-      }, [])
-    
-    return [filterState, setFilter]
-};
+function useToolkitFilter() {
+  const dispatch = useDispatch();
+  const setFilter = useCallback(
+    (filterState) => {
+      dispatch(setFilterState({ filterState }));
+    },
+    [dispatch]
+  );
+  return [setFilter];
+}
+
+export default useToolkitFilter;
