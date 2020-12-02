@@ -27,7 +27,16 @@ const theme = {
 describe("Header", () => {
   test("renders Header Componenent", () => {
     customRender(<Header />, { providerProps: {theme} });
+    expect(screen.getByText('TodoooooList')).toBeInTheDocument();
+    // screen.debug();
+  });
+});
 
-    screen.debug();
+
+describe("Header2", () => {
+  test("renders Header Componenent2", () => {
+    customRender(<Header />, { providerProps: {theme} });
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    // screen.debug();
   });
 });
