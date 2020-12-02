@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 
 // import store from "./redux/store";
 // import combineReducers from "./redux/reducers";
-import combineReducers from './redux-tool/reducers';
+import combineReducers from './redux/reducers';
 import { configureStore } from "@reduxjs/toolkit";
 
 const theme = {

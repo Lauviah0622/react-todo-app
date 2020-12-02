@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {addTodo as addTodoAction, deleteTodo as deleteTodoAction, updateTodo, toggleTodo} from '../redux-tool/feature/todos/todoSlice';
+import {addTodo as addTodoAction, deleteTodo as deleteTodoAction, updateTodo, toggleTodo} from '../redux/feature/todos/todoSlice';
 
 const filtTodolistData = (todosData, filterState) => {
   return todosData.filter(todo => {
@@ -28,13 +28,6 @@ function useToolkitTodos() {
     dispatch(addTodoAction({content}));
   })
   
-  // useCallback(
-  //   (content) => {
-  //     dispatch(addTodoAction({content}));
-  //   },
-  //   [dispatch]
-  // );
-
   const deleteTodo = useDispatchCallback(
     (id) => {
       dispatch(deleteTodoAction({id}));
