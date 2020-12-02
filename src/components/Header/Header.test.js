@@ -37,7 +37,6 @@ describe("Header2", () => {
   test("renders Header Componenent2", () => {
     customRender(<Header />, { providerProps: {theme} });
     expect(screen.getByRole('textbox')).toBeInTheDocument();
-    console.log('nonono');
     // screen.debug();
   });
 });
