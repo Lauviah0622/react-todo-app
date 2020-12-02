@@ -2,7 +2,7 @@ import styled from "styled-components";
 import useTodos from './hooks/useTodos';
 import useFilter from "./hooks/useFilter";
 import Todolist from "./components/Todolist";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Filter from './components/Filter';
 
 const AppWrapper = styled.div`
