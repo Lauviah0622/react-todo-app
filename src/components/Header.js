@@ -78,7 +78,7 @@ function Header({addToto}) {
 
   return (
     <HeaderWrapper>
-      <Title>TodoList</Title>
+      <Title>TodoooooList</Title>
       <InputBar>
         <StyledInput 
         placeholder="有什麼要忙的嗎？" 
