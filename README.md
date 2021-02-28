@@ -1,7 +1,10 @@
 # React Todo List
-[Demo](https://lauviah.io/mtr-04/todo/)在此，來自[程式導師計畫 week 23 hw1](https://github.com/Lidemy/mentor-program-4th-Lauviah0622/tree/master/homeworks/week23)
+[Demo](https://lauviah.io/mtr-04/todo/)
+[Redux版 Demo](https://lauviah.io/mtr-04/redux-todo/)
 
-用 React 搭上 redux 寫一個簡單的部落格
+來自[程式導師計畫 week 23 hw1](https://github.com/Lidemy/mentor-program-4th-Lauviah0622/tree/master/homeworks/week23)
+
+用 React 搭上 redux 寫一個簡單的 Todo List，就像大家都會練習的那樣 XD
 
 ## 功能說明
 一個簡單的 Todo List，包含以下功能：
@@ -16,6 +19,8 @@
 1. React
 2. Redux
 3. Styled-component
+
+## 
 
 ---
 ## 可以加上的功能
