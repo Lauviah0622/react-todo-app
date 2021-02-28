@@ -6,6 +6,8 @@
 
 用 React 搭上 redux 寫一個簡單的 Todo List，就像大家都會練習的那樣 XD
 
+有 redux 版 還有 無 redux 版，切換 branch 可以看到不同版本
+
 ## 功能說明
 一個簡單的 Todo List，包含以下功能：
 
